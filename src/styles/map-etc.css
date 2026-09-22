@@ -1,0 +1,967 @@
+.map-title {
+    position: absolute;
+    top: 1rem;
+    text-align: center;
+    color: #efedec;
+    z-index: 900;
+    font-size: 190%;
+    width: 100%;
+}
+
+.pulse-shadow {
+    animation: pulseShadow 3s ease 2;
+}
+.btn:hover {
+  background-color: #d7d7d8;
+  color: none;
+}
+
+@keyframes pulseShadow {
+
+    0% {
+        box-shadow: inset 0 0 0 0px rgba(255, 255, 255, 0.2), 0 0 0 0px rgba(255, 255, 255, 0.2);
+    }
+
+    100% {
+        box-shadow: inset 0 0 0 20px rgba(255, 255, 255, 0), 0 0 0 40px rgba(255, 255, 255, 0);
+
+    }
+}
+
+#map {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    position: relative;
+
+    .map-button {
+        position: absolute;
+        top: 0.8rem;
+        z-index: 900;
+        height: 45px;
+        border-radius: 50%;
+        transition-duration: .3s;
+        background-color: var(--black-grey);
+        border: 1px solid var(--black-grey);
+        color: white;
+        padding: 0.5rem;
+        backdrop-filter: blur(1px);
+
+        svg {
+            height: 100%;
+        }
+
+        &:has(.fa-moon) {
+            width: 45px;
+        }
+    }
+
+    #base-map--toggle {
+        right: 0.6rem;
+        z-index: 1000;
+        top: 5rem;
+        background-color: rgb(252, 251, 251);
+        /* border-color: #3a3a3a; */
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border:none;
+        
+        
+    }
+
+    #base-map--toggle:active {
+        background-color: rgb(184, 184, 185);
+        /* border-color: #3a3a3a; */
+
+    }
+
+    #gps {
+        right: 0.6rem;
+        top: 8rem;
+        background-color: rgb(252, 250, 250);
+        /* border-color: #3a3a3a; */
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border:none;
+
+    }
+    #gps:active {
+        background-color: rgb(247, 247, 250);
+        /* border-color: #3a3a3a; */
+
+    }
+
+    #connect,
+    #create,
+    #share {
+        width: 5.5rem;
+        height: 3.5rem;
+        bottom: 1rem;
+        border-radius: 20%;
+        background-color: var(--wa-green);
+        transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        outline: none;
+        border: none;
+        
+    }
+    /* Hover state */
+    #connect:hover,
+    #share:hover,
+    #create:hover {
+        background-color: var(--wa-green--dark); /* Darken background */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for hover effect */
+    }
+
+    /* Focus state */
+    #connect:focus,
+    #share:focus,
+    #create:focus {
+        outline: none
+    }
+
+    /* Active state */
+    #connect:active,
+    #share:active,
+    #create:active {
+        background-color: var(--mid-green-light, #25D365); /* Lighten background */
+    }
+    #connect:focus:not(:focus-visible),
+    #share:focus:not(:focus-visible),
+    #create:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+    }
+    /* Wider pill shape so the longer label fits on one line */
+    #create {
+        width: auto;
+        min-width: 18rem;
+        height: auto;
+        min-height: 3.5rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: 1.75rem;
+        white-space: nowrap;
+    }
+    .position-marker-icon {
+        color: black;
+
+        svg {
+            height: 15px;
+            width: 15px;
+        }
+    }
+    .whatsapp-marker-icon {
+        color: var(--bright-green);
+
+        svg {
+            height: 25px;
+            width: 25px;
+        }
+    }
+    .whatsapp-mapper-icon {
+        background-color: #2D2C2C;  /* Background around the icon */
+        border-radius: 50%;                     /* Circular shape */
+        padding: 6px;                           /* Space between icon and edge */
+        width: 15px;                            /* Size = icon size + padding * 2 */
+        height: 15px;
+        display: flex;                          /* Center the icon inside */
+        align-items: center;
+        justify-content: center;
+        color: #f9faf9;
+        box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);  /* Optional shadow */
+    }
+    /* .leaflet-marker-icon {
+        transform: scale(1.2);
+      } */
+    .whatsapp-mapper-icon svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .leaflet-div-icon {
+        border: none;
+        background-color: transparent;
+    }
+
+    .leaflet-control-scale-line {
+        background-color: transparent;
+        color: var(--light-grey);
+        border-color: var(--light-grey);
+        border-radius: 5px;
+        font-size: 105%;
+        min-width: fit-content;
+        text-shadow: none;
+    }
+
+    .leaflet-control-attribution {
+        background-color: transparent;
+        color: var(--light-grey);
+    }
+
+    .error-popup {
+        color: var(--mid-green);
+    }
+}
+
+.map-action-btn {
+    width: auto;
+    min-width: 8rem;
+    height: auto;
+    min-height: 3.5rem;
+    padding: 0.9rem 1.6rem;
+    /* bottom: 2.5em; */
+    border: none;
+    border-radius: 1.5rem;
+    background-color: var(--mid-green);
+    color: #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    /* Remove blue highlight on mobile tap */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Prevent task ID upload button text from turning white on click */
+#sharing-modal .btn:active,
+#sharing-modal .btn:focus {
+    color: #000 !important;
+}
+
+#sharing-modal .btn:disabled:active,
+#sharing-modal .btn:disabled:focus {
+    color: #666 !important;
+}
+
+.map-action-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--wa-green--dark);
+}
+
+.map-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.map-action-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-action-icon svg {
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+.map-action-label {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    font-family: Ubuntu, Helvetica, Arial, sans-serif;
+}
+
+#map-actions-container {
+    color: #f0f0f0;
+    background-color: transparent;
+    z-index: 900;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 2.8vh;
+    pointer-events: none; 
+
+
+    .map-actions__wrapper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allow interactions to pass through */
+
+
+
+        .map-actions__body {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            margin-inline-start: 0.5rem;
+            pointer-events: none; /* Enable interactions for buttons and inputs */
+
+
+            @media screen and (min-width: 600px) {
+                padding-inline: 16vw;
+            }
+
+            .map-action-btn {
+                pointer-events: auto; /* Ensure buttons are interactive */
+            }
+
+            .filter__form {
+                position: absolute;
+                top: 0.1rem;
+                left: 0.5rem;
+                display: none;
+                flex-direction: column; /* 👈 key change: stack vertically */
+                align-items: flex-start;
+                gap: 0.3rem; /* space between search bar and suggestions */
+                width: 100%;
+                pointer-events: auto;
+              }
+              
+            
+            .filter__wrapper {
+                position: relative;
+                width: 80%;
+                border-radius: 30px;
+                background-color: white;
+                min-height: 3rem;
+                display: none;
+                align-items: center;
+                padding-right: 3rem;
+                box-sizing: border-box;
+                pointer-events: auto; /* Ensure buttons are interactive */
+
+            }
+              
+              .filter__wrapper > textarea {
+                width: 100%;
+                border: none;
+                resize: none;
+                font-size: 105%;
+                padding: 0;                /* Reset padding */
+                padding-left: 1rem;        /* Left padding for text */
+                padding-right: 3rem;       /* Space for button */
+                border-radius: 30px;
+                outline: none;
+                background: transparent;
+                box-sizing: border-box;
+                line-height: 3rem;         /* Match the height of the wrapper */
+                height: 3rem;              /* Explicit height to match container */
+                pointer-events: auto; /* Ensure buttons are interactive */
+
+              }
+              
+              
+              .filter__wrapper > button {
+                position: absolute;
+                top: 50%;
+                right: 1rem;
+                transform: translateY(-50%);
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                height: 1.5rem;
+                width: 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                pointer-events: auto; /* Ensure buttons are interactive */
+
+              }
+              
+              .filter__wrapper > button > svg {
+                height: 100%;
+                width: 100%;
+                color: var(--wa-green);
+              }
+              
+              .filter__suggested-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                padding-inline: 0.5rem;
+              }
+              
+              .filter__suggested-tags button {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+                border: 1px solid var(--wa-green);
+                background-color: white;
+                border-radius: 20px;
+                color: var(--wa-green);
+                cursor: pointer;
+                white-space: nowrap;
+                width: auto; /* 👈 button width now adapts to content */
+              }
+              
+              
+              .filter__suggested-tags button:hover {
+                background-color: var(--wa-green);
+                color: white;
+              }
+              
+
+
+            /* button {
+                display: flex;
+                right:-2rem;
+                align-items: center;
+                justify-content: center;
+                width: 5rem;
+                height: 3rem;
+                background-color: var(--mid-green);
+                border-radius: 20%;
+                border: 1px solid var(--mid-green--translucent);
+
+                >svg {
+                    height: 1.5rem;
+                    width: 1.5rem;
+                    color: white;
+                    padding: 0.3rem;
+                }
+
+            } */
+
+
+        }
+    }
+    .map-actions__buttons {
+        display: flex;
+        justify-content: center; /* Center the buttons horizontally */
+        align-items: center; /* Align the buttons vertically */
+        gap: 2rem; /* Add spacing between the buttons */
+        position: fixed;
+        bottom: 1rem; /* Position the buttons 1rem from the bottom */
+        width: 100%; /* Ensure the container spans the full width */
+        z-index: 900; /* Ensure it appears above other elements */
+    }
+}
+
+
+#connect,
+#create,
+#share {
+    width: 5.5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+    background-color: var(--wa-green);
+    transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    outline: none;
+    border: none;
+    color: #3a3a3a;
+    position: relative; /* Ensure proper positioning within the container */
+}
+
+#connect:hover,
+#create:hover,
+#share:hover {
+    background-color: var(--wa-green--dark); /* Darken background on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for hover effect */
+}
+
+#connect:disabled,
+#create:disabled,
+#share:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#connect:active,
+#create:active,
+#share:active {
+    background-color: var(--mid-green-light, #25D365); /* Lighten background */
+}
+
+#sharing-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Top-aligned for scrollable content */
+    z-index: 901;
+    position: absolute;
+    top: 12vh;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 50vw;
+    max-height: 75vh; /* restrict modal height */
+    overflow-y: auto; /* enable vertical scroll when content overflows */
+    background-color: var(--mid-green);
+    backdrop-filter: blur(2px);
+    padding: 1rem;
+    pointer-events: auto;
+
+
+    padding-bottom: 2rem;
+    border-radius: 8px;
+    color: #020202;
+    box-shadow: 9px 9px 17px #140202,
+        -9px -9px 17px #1b0e0e;
+
+
+    .modal-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0.5rem;
+    }
+
+    .modal-title {
+        font-size: 105%;
+        font-weight: 600;
+    }
+
+    .option-button-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1.2rem;
+        align-items: center;
+        margin-top: 1vh;
+
+
+        .btn {
+            width: 96%;
+            height: 6vh;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            font-size: medium;
+            font-weight: 600;
+            padding: 0.2rem;
+            color: black;
+
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+            .btn-icon {
+                height: 95%;
+                margin-right: 0.4rem;
+                transition: color 0.3s ease
+            }
+
+
+            &.disabled,
+            &.disabled>.btn-icon {
+                color: var(--mid-grey) !important;
+                fill: var(--mid-grey);
+            }
+
+            &:active,
+            :focus {
+                background-color: #25D365;
+                color: #eee;
+                border-color: #0a3b1f;
+
+                svg {
+                    color: #eee;
+                }
+            }
+        }
+
+
+    }
+}
+#sharing-modal .checkbox-container label {
+    color: #050505; /* Ensure checkbox labels are also dark blue */
+}
+
+.checkbox-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 1rem; /* Add spacing between the checkboxes */
+    margin-top: 1rem; /* Add some spacing above the container */
+}
+
+.feature-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+
+    img {
+        width: 100%;
+        max-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .next-image {
+        display: flex;
+        background-color: var(--mid-green);
+        border-radius: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            color: white;
+        }
+    }
+}
+
+#search-modal {
+    display: flex;
+    flex: 7;
+    min-width: 50vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 901;
+    position: absolute;
+    top: 16vh;
+    margin-inline: 20%;
+    background-color: var(--mid-green--translucent);
+    backdrop-filter: blur(2px);
+    padding: 1rem;
+    padding-bottom: 2rem;
+    border-radius: 8px;
+    color: #222222;
+    box-shadow: 9px 9px 17px #140202,
+        -9px -9px 17px #1b0e0e;
+    pointer-events: auto; 
+}
+
+#search-modal .modal-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0.5rem;
+    background: transparent;
+    /* border: none; */
+    font-size: 0.8rem;
+    cursor: pointer;
+    color:black; /* Match the color of the share modal close button */
+    transition: color 0.3s ease; /* Add smooth transition for hover effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.3rem;
+    border-radius: 40%; /* Make it circular like the share modal */
+    background-color: white; /* Match the background color */
+    border-color: rgb(7, 7, 7); /* Match the background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for consistency */
+}
+
+#search-modal .modal-close:hover {
+    background-color: #d7d7d8; /* Darken background on hover */
+    color:none; /* Change icon color to white on hover */
+}
+
+#search-modal .modal-title {
+    font-size: 105%;
+    font-weight: 600;
+}
+
+#search-modal .modal-content {
+    font-size: 1rem;
+    color: #19191a;
+    text-align: center;
+}
+
+.premium-btn {
+    position: absolute;
+        /* position: fixed; */
+        bottom: 3.3rem; /* Close to the bottom of the screen */
+        width: 5.5rem;
+        height: 3.5rem;
+        border-radius: 20%;
+        right: 20px; /* Adjust as needed */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background-color: var(--wa-green);
+    /* border: 1px solid var(--mid-green--translucent); */
+    border: none;
+}
+
+.premium-btn:hover{
+        background-color: var(--wa-green--dark); /* Darken background */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for hover effect */
+    }
+
+    /* Focus state */
+    .premium-btn:focus{
+        outline: none;
+    }
+
+    /* Active state */
+    .premium-btn:active{
+        background-color: var(--mid-green-light, #25D365); /* Lighten background */
+    }
+#search-modal .option-button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+    align-items: center;
+    margin-top: 2vh;
+}
+
+#search-modal .option-button-container .btn {
+    width: 96%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: medium;
+    font-weight: 600;
+    padding: 0.5rem;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+#search-modal .option-button-container .btn:hover {
+    background-color: #d7d7d8; /* Change to a lighter grey on hover */
+    color: none; /* Ensure text remains readable */
+}
+
+/* Custom Leaflet Popup Background */
+.leaflet-popup-content-wrapper {
+    background-color: #88eefc !important;
+    color: #000 !important; /* Use dark text for contrast */
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  /* Optional: Adjust popup tip color */
+  .leaflet-popup-tip {
+    background-color: #88eefc !important;
+  }
+  /* Apply to the entire popup */
+.leaflet-popup-content {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #3b9aa7 #88eefc; /* Firefox fallback */
+  }
+  
+  /* WebKit scrollbar styling */
+  .leaflet-popup-content::-webkit-scrollbar {
+    width: 20px;
+    color: #015266;
+  }
+  
+  .leaflet-popup-content::-webkit-scrollbar-track {
+    background: #015266;
+    border-radius: 4px;
+  }
+  
+  .leaflet-popup-content::-webkit-scrollbar-thumb {
+    background-color: #015266;
+    border-radius: 6px;
+    border: 2px solid #015266;
+  }
+
+/* Edit and Delete buttons in popups */
+.popup-edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    margin-right: 5px;
+    transition: background-color 0.2s;
+}
+
+.popup-edit-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.popup-edit-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.popup-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.popup-delete-btn:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.popup-delete-container {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    z-index: 1000;
+    background-color: white;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.popup-edit-textarea {
+    width: calc(100% - 40px);
+    height: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    padding: 5px;
+    margin: 0 15px 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    resize: none;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.popup-edit-actions {
+    margin-top: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.popup-save-btn {
+    padding: 3px 8px;
+    background-color: #015266;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popup-save-btn:hover {
+    background-color: #015266;
+}
+
+.popup-cancel-btn {
+    padding: 3px 8px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popup-cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+.popup-observation-container {
+    margin-bottom: 10px;
+}
+
+.popup-observation-display {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.popup-observation-text {
+    flex: 1;
+}
+
+.popup-observation-text p {
+    margin: 2px 0;
+}
+
+.popup-edit-button-container {
+    margin-left: 0px;
+}
+
+/* Bottom delete button container */
+.popup-bottom-delete-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.popup-bottom-delete-btn {
+    background: #dc3545;
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.popup-bottom-delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Drag and Drop Styles */
+#map.drag-over {
+    border: 3px dashed #25D365;
+    background-color: rgba(37, 211, 101, 0.1);
+}
+
+.drag-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(37, 211, 101, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    pointer-events: none;
+}
+
+.drag-message {
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.drag-message h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.drag-message p {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.9;
+}

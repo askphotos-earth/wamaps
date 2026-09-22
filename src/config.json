@@ -1,0 +1,9 @@
+{
+    "api": {
+        "invokeUrl": "https://58l6w8fkb7.execute-api.eu-west-2.amazonaws.com/dev"
+    },
+    "mapbox": {
+        "accessToken": "pk.eyJ1IjoibWFyY29zbW9yZXV1Y2wiLCJhIjoiY21lc2o4eDVvMDJ5YTJpcjRnaDdyN2ZsdSJ9.bKpLqcwjZ6PnF55z9Q7GSQ"
+    }
+
+}

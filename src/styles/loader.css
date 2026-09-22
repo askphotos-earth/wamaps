@@ -1,0 +1,69 @@
+#loader {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    /* to be above scale line and attribution */
+    z-index: 1002;
+    gap: 5px;
+    background-color: #2D2C2C;
+
+    &.loader:before,
+    &.loader:after {
+        box-shadow: 0 0 0 3px inset #25D365;
+    }
+}
+
+#upload-loader {
+    z-index: 1003;
+    color: var(--wa-green);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 95%;
+    background-color: #25D365;
+    border-radius: 8px;
+    top: 0;
+
+    &.loader:before,
+    &.loader:after {
+        box-shadow: 0 0 0 3px inset var(--wa-green);
+    }
+}
+
+
+.loader:before,
+.loader:after {
+    content: "";
+    width: 25px;
+    aspect-ratio: 1;
+    border-radius: 50%; /* make them circles instead of squares */
+    /* box-shadow: 0 0 0 3px inset #fff; */
+    animation: l5 1.5s infinite;
+}
+
+.loader:after {
+    --s: -1;
+}
+
+@keyframes l5 {
+    0% {
+        transform: scaleX(var(--s, 1)) translate(0) scale(1)
+    }
+
+    33% {
+        transform: scaleX(var(--s, 1)) translate(calc(50% + 2.5px)) scale(1)
+    }
+
+    66% {
+        transform: scaleX(var(--s, 1)) translate(calc(50% + 2.5px)) scale(2)
+    }
+
+    100% {
+        transform: scaleX(var(--s, 1)) translate(0) scale(1)
+    }
+}
